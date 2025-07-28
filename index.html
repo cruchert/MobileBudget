@@ -26,13 +26,24 @@
             font-weight: bold;
             background-color: #000000;
             color: #ffffff;
-            text-align: right; /* Totals aligned right */
         }
-        .grand-total {
-            font-weight: bold;
-            background-color: #000000;
-            color: #ffffff;
-            text-align: right; /* Grand total aligned right */
+        .total-row td:first-child {
+            text-align: left; /* Category name aligned left */
+        }
+        .total-row td:nth-child(2) {
+            text-align: left; /* Empty sub-category aligned left */
+        }
+        .total-row td:last-child {
+            text-align: right; /* Amount aligned right */
+        }
+        .grand-total td:first-child {
+            text-align: left; /* Grand total name to left */
+        }
+        .grand-total td:nth-child(2) {
+            text-align: left; /* Empty in grand total to left */
+        }
+        .grand-total td:last-child {
+            text-align: right; /* Grand total amount to right */
         }
         .category-row:nth-child(even) {
             background-color: #f9f9f9; /* Light gray for even rows */
@@ -43,6 +54,9 @@
         .sub-category-first {
             text-align: left; /* First line under sub-category to the left */
         }
+        .category-start {
+            text-align: left; /* Align category start to the left */
+        }
         input {
             width: 100px;
             padding: 5px;
@@ -52,52 +66,6 @@
         h1 {
             font-family: 'Verdana', sans-serif; /* Changed font for title */
             font-size: 36px; /* Made bigger */
-        }
-
-        /* Mobile optimizations for iPhone 16 Pro/Safari */
-        @media screen and (max-width: 430px) { /* iPhone 16 Pro screen width */
-            body {
-                font-size: 14px; /* Reduce font size for mobile */
-            }
-            table {
-                font-size: 12px; /* Smaller font for table on mobile */
-                overflow-x: auto; /* Horizontal scroll for wide tables */
-                display: block; /* Allow scrolling */
-            }
-            th, td {
-                padding: 6px; /* Reduced padding for mobile */
-                min-width: 100px; /* Prevent text from being too cramped */
-            }
-            input {
-                width: 70px; /* Smaller inputs for mobile touch */
-                font-size: 12px; /* Match table font size */
-                -webkit-appearance: none; /* Remove default iOS styling */
-            }
-            h1 {
-                font-size: 24px; /* Even smaller title for mobile */
-                text-align: center; /* Centered title for better aesthetics */
-            }
-            .total-row td:last-child, .grand-total td:last-child {
-                padding-right: 10px; /* Extra padding for amount column */
-            }
-            .total-row td:first-child {
-                text-align: left; /* Category name aligned left in total row */
-            }
-            .total-row td:nth-child(2) {
-                text-align: left; /* Empty sub-category aligned left in total row */
-            }
-            .total-row td:last-child {
-                text-align: right; /* Amount aligned right in total row */
-            }
-            .grand-total td:first-child {
-                text-align: left; /* Grand total name to left */
-            }
-            .grand-total td:nth-child(2) {
-                text-align: left; /* Empty in grand total to left */
-            }
-            .grand-total td:last-child {
-                text-align: right; /* Grand total amount to right */
-            }
         }
     </style>
 </head>
