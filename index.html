@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Budget</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-family: Arial, sans-serif; /* Better readability font */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: right;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td:first-child, th:first-child {
+            text-align: left;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: right; /* Totals aligned right */
+        }
+        .grand-total {
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: right; /* Grand total aligned right */
+        }
+        .category-row:nth-child(even) {
+            background-color: #f9f9f9; /* Light gray for even rows */
+        }
+        .category-row:nth-child(odd) {
+            background-color: #ffffff; /* White for odd rows */
+        }
+        .sub-category-first {
+            text-align: left; /* First line under sub-category to the left */
+        }
+        input {
+            width: 100px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        h1 {
+            font-family: 'Verdana', sans-serif; /* Changed font for title */
+            font-size: 36px; /* Made bigger */
+        }
+
+        /* Mobile optimizations for iPhone 16 Pro/Safari */
+        @media screen and (max-width: 430px) { /* iPhone 16 Pro screen width */
+            body {
+                font-size: 14px; /* Reduce font size for mobile */
+            }
+            table {
+                font-size: 12px; /* Smaller font for table on mobile */
+                overflow-x: auto; /* Horizontal scroll for wide tables */
+                display: block; /* Allow scrolling */
+            }
+            th, td {
+                padding: 6px; /* Reduced padding for mobile */
+            }
+            input {
+                width: 80px; /* Smaller inputs for mobile touch */
+            }
+            h1 {
+                font-size: 28px; /* Smaller title on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Monthly Budget</h1>
+    <table id="budgetTable">
+        <tr>
+            <th>Category</th>
+            <th>Sub-Category</th>
+            <th>Amount ($)</th>
+        </tr>
+        <!-- Housing -->
+        <tr class="category-row category-start">
+            <td rowspan="3">Housing</td>
+            <td class="sub-category-first">Mortgage</td>
+            <td><input type="number" id="mortgage" value="2300" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">HELOC</td>
+            <td><input type="number" id="heloc" value="1600" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Windows/Siding Project</td>
+            <td><input type="number" id="windowsSiding" value="900" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Housing</td>
+            <td></td>
+            <td>$<span id="housingTotal">4800</span></td>
+        </tr>
+
+        <!-- Utilities -->
+        <tr class="category-row category-start">
+            <td rowspan="5">Utilities</td>
+            <td class="sub-category-first">Natural Gas (Cascade Natural Gas)</td>
+            <td><input type="number" id="naturalGas" value="126" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Power (Pacific Power)</td>
+            <td><input type="number" id="power" value="143" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Water (City of Walla Walla)</td>
+            <td><input type="number" id="water" value="90" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Garbage (Basin Disposal)</td>
+            <td><input type="number" id="garbage" value="33" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Phone Bill</td>
+            <td><input type="number" id="phoneBill" value="600" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Utilities</td>
+            <td></td>
+            <td>$<span id="utilitiesTotal">992</span></td>
+        </tr>
+
+        <!-- Debt -->
+        <tr class="category-row category-start">
+            <td rowspan="7">Debt</td>
+            <td class="sub-category-first">Gesa Credit Union</td>
+            <td><input type="number" id="gesa" value="149" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">MGM Rewards</td>
+            <td><input type="number" id="mgm" value="25" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Barclays</td>
+            <td><input type="number" id="barclays" value="25" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Bank of America</td>
+            <td><input type="number" id="boa" value="386" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Capital One</td>
+            <td><input type="number" id="capitalOne" value="62" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Apple Card</td>
+            <td><input type="number" id="appleCard" value="25" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Home Depot</td>
+            <td><input type="number" id="homeDepot" value="29" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Debt</td>
+            <td></td>
+            <td>$<span id="debtTotal">701</span></td>
+        </tr>
+
+        <!-- Food/Groceries -->
+        <tr class="category-row category-start">
+            <td rowspan="2">Food/Groceries</td>
+            <td class="sub-category-first"></td>
+            <td><input type="number" id="foodGroceries" value="800" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Food/Groceries</td>
+            <td></td>
+            <td>$<span id="foodTotal">800</span></td>
+        </tr>
+
+        <!-- Transportation -->
+        <tr class="category-row category-start">
+            <td rowspan="4">Transportation</td>
+            <td class="sub-category-first">Gas/Maintenance</td>
+            <td><input type="number" id="gasMaintenance" value="210" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Car Insurance</td>
+            <td><input type="number" id="carInsurance" value="140" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Car Payment</td>
+            <td><input type="number" id="carPayment" value="600" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Transportation</td>
+            <td></td>
+            <td>$<span id="transportationTotal">950</span></td>
+        </tr>
+
+        <!-- Pet -->
+        <tr class="category-row category-start">
+            <td rowspan="3">Pet</td>
+            <td class="sub-category-first"></td>
+            <td><input type="number" id="petGeneral" value="300" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Pet Insurance</td>
+            <td><input type="number" id="petInsurance" value="0" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Pet</td>
+            <td></td>
+            <td>$<span id="petTotal">300</span></td>
+        </tr>
+
+        <!-- Streaming Services -->
+        <tr class="category-row category-start">
+            <td rowspan="6">Streaming Services</td>
+            <td class="sub-category-first">Hulu</td>
+            <td><input type="number" id="hulu" value="175" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Netflix</td>
+            <td><input type="number" id="netflix" value="30" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Prime</td>
+            <td><input type="number" id="prime" value="20" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Apple</td>
+            <td><input type="number" id="apple" value="40" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">SuperGrok</td>
+            <td><input type="number" id="superGrok" value="30" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Streaming Services</td>
+            <td></td>
+            <td>$<span id="streamingTotal">295</span></td>
+        </tr>
+
+        <!-- Miscellaneous -->
+        <tr class="category-row category-start">
+            <td rowspan="3">Miscellaneous</td>
+            <td class="sub-category-first">Bank Fees</td>
+            <td><input type="number" id="bankFees" value="10" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">School Trip</td>
+            <td><input type="number" id="schoolTrip" value="400" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Miscellaneous</td>
+            <td></td>
+            <td>$<span id="miscTotal">410</span></td>
+        </tr>
+
+        <!-- Savings/Debt Payoff -->
+        <tr class="category-row category-start">
+            <td rowspan="3">Savings/Debt Payoff</td>
+            <td class="sub-category-first">Emergency Savings</td>
+            <td><input type="number" id="emergencySavings" value="600" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Extra Debt Payoff</td>
+            <td><input type="number" id="extraDebtPayoff" value="800" onchange="updateTotals()"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Savings/Debt Payoff</td>
+            <td></td>
+            <td>$<span id="savingsTotal">1400</span></td>
+        </tr>
+
+        <!-- Grand Total -->
+        <tr class="grand-total">
+            <td colspan="2">Grand Total</td>
+            <td>$<span id="grandTotal">10668</span></td>
+        </tr>
+    </table>
+
+    <script>
+        function updateTotals() {
+            // Housing
+            const mortgage = parseFloat(document.getElementById('mortgage').value) || 0;
+            const heloc = parseFloat(document.getElementById('heloc').value) || 0;
+            const windowsSiding = parseFloat(document.getElementById('windowsSiding').value) || 0;
+            const housingTotal = mortgage + heloc + windowsSiding;
+            document.getElementById('housingTotal').innerHTML = housingTotal;
+
+            // Utilities
+            const naturalGas = parseFloat(document.getElementById('naturalGas').value) || 0;
+            const power = parseFloat(document.getElementById('power').value) || 0;
+            const water = parseFloat(document.getElementById('water').value) || 0;
+            const garbage = parseFloat(document.getElementById('garbage').value) || 0;
+            const phoneBill = parseFloat(document.getElementById('phoneBill').value) || 0;
+            const utilitiesTotal = naturalGas + power + water + garbage + phoneBill;
+            document.getElementById('utilitiesTotal').innerHTML = utilitiesTotal;
+
+            // Debt
+            const gesa = parseFloat(document.getElementById('gesa').value) || 0;
+            const mgm = parseFloat(document.getElementById('mgm').value) || 0;
+            const barclays = parseFloat(document.getElementById('barclays').value) || 0;
+            const boa = parseFloat(document.getElementById('boa').value) || 0;
+            const capitalOne = parseFloat(document.getElementById('capitalOne').value) || 0;
+            const appleCard = parseFloat(document.getElementById('appleCard').value) || 0;
+            const homeDepot = parseFloat(document.getElementById('homeDepot').value) || 0;
+            const debtTotal = gesa + mgm + barclays + boa + capitalOne + appleCard + homeDepot;
+            document.getElementById('debtTotal').innerHTML = debtTotal;
+
+            // Food/Groceries
+            const foodGroceries = parseFloat(document.getElementById('foodGroceries').value) || 0;
+            const foodTotal = foodGroceries;
+            document.getElementById('foodTotal').innerHTML = foodTotal;
+
+            // Transportation
+            const gasMaintenance = parseFloat(document.getElementById('gasMaintenance').value) || 0;
+            const carInsurance = parseFloat(document.getElementById('carInsurance').value) || 0;
+            const carPayment = parseFloat(document.getElementById('carPayment').value) || 0;
+            const transportationTotal = gasMaintenance + carInsurance + carPayment;
+            document.getElementById('transportationTotal').innerHTML = transportationTotal;
+
+            // Pet
+            const petGeneral = parseFloat(document.getElementById('petGeneral').value) || 0;
+            const petInsurance = parseFloat(document.getElementById('petInsurance').value) || 0;
+            const petTotal = petGeneral + petInsurance;
+            document.getElementById('petTotal').innerHTML = petTotal;
+
+            // Streaming Services
+            const hulu = parseFloat(document.getElementById('hulu').value) || 0;
+            const netflix = parseFloat(document.getElementById('netflix').value) || 0;
+            const prime = parseFloat(document.getElementById('prime').value) || 0;
+            const apple = parseFloat(document.getElementById('apple').value) || 0;
+            const superGrok = parseFloat(document.getElementById('superGrok').value) || 0;
+            const streamingTotal = hulu + netflix + prime + apple + superGrok;
+            document.getElementById('streamingTotal').innerHTML = streamingTotal;
+
+            // Miscellaneous
+            const bankFees = parseFloat(document.getElementById('bankFees').value) || 0;
+            const schoolTrip = parseFloat(document.getElementById('schoolTrip').value) || 0;
+            const miscTotal = bankFees + schoolTrip;
+            document.getElementById('miscTotal').innerHTML = miscTotal;
+
+            // Savings/Debt Payoff
+            const emergencySavings = parseFloat(document.getElementById('emergencySavings').value) || 0;
+            const extraDebtPayoff = parseFloat(document.getElementById('extraDebtPayoff').value) || 0;
+            const savingsTotal = emergencySavings + extraDebtPayoff;
+            document.getElementById('savingsTotal').innerHTML = savingsTotal;
+
+            // Grand Total
+            const grandTotal = housingTotal + utilitiesTotal + debtTotal + foodTotal + transportationTotal + petTotal + streamingTotal + miscTotal + savingsTotal;
+            document.getElementById('grandTotal').innerHTML = grandTotal;
+        }
+
+        // Initial call to set totals on page load
+        window.onload = updateTotals;
+    </script>
+</body>
+</html>
