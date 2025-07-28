@@ -66,12 +66,37 @@
             }
             th, td {
                 padding: 6px; /* Reduced padding for mobile */
+                min-width: 100px; /* Prevent text from being too cramped */
             }
             input {
-                width: 80px; /* Smaller inputs for mobile touch */
+                width: 70px; /* Smaller inputs for mobile touch */
+                font-size: 12px; /* Match table font size */
+                -webkit-appearance: none; /* Remove default iOS styling */
             }
             h1 {
-                font-size: 28px; /* Smaller title on mobile */
+                font-size: 24px; /* Even smaller title for mobile */
+                text-align: center; /* Centered title for better aesthetics */
+            }
+            .total-row td:last-child, .grand-total td:last-child {
+                padding-right: 10px; /* Extra padding for amount column */
+            }
+            .total-row td:first-child {
+                text-align: left; /* Category name aligned left in total row */
+            }
+            .total-row td:nth-child(2) {
+                text-align: left; /* Empty sub-category aligned left in total row */
+            }
+            .total-row td:last-child {
+                text-align: right; /* Amount aligned right in total row */
+            }
+            .grand-total td:first-child {
+                text-align: left; /* Grand total name to left */
+            }
+            .grand-total td:nth-child(2) {
+                text-align: left; /* Empty in grand total to left */
+            }
+            .grand-total td:last-child {
+                text-align: right; /* Grand total amount to right */
             }
         }
     </style>
