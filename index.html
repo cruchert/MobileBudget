@@ -26,24 +26,13 @@
             font-weight: bold;
             background-color: #000000;
             color: #ffffff;
+            text-align: right; /* Totals aligned right */
         }
-        .total-row td:first-child {
-            text-align: left; /* Category name aligned left */
-        }
-        .total-row td:nth-child(2) {
-            text-align: left; /* Empty sub-category aligned left */
-        }
-        .total-row td:last-child {
-            text-align: right; /* Amount aligned right */
-        }
-        .grand-total td:first-child {
-            text-align: left; /* Grand total name to left */
-        }
-        .grand-total td:nth-child(2) {
-            text-align: left; /* Empty in grand total to left */
-        }
-        .grand-total td:last-child {
-            text-align: right; /* Grand total amount to right */
+        .grand-total {
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: right; /* Grand total aligned right */
         }
         .category-row:nth-child(even) {
             background-color: #f9f9f9; /* Light gray for even rows */
@@ -53,9 +42,6 @@
         }
         .sub-category-first {
             text-align: left; /* First line under sub-category to the left */
-        }
-        .category-start {
-            text-align: left; /* Align category start to the left */
         }
         input {
             width: 100px;
@@ -163,7 +149,7 @@
 
         <!-- Food/Groceries -->
         <tr class="category-row category-start">
-            <td rowspan="2">Food/Groceries</td>
+            <td>Food/Groceries</td>
             <td class="sub-category-first"></td>
             <td><input type="number" id="foodGroceries" value="800" onchange="updateTotals()"></td>
         </tr>
@@ -175,7 +161,7 @@
 
         <!-- Transportation -->
         <tr class="category-row category-start">
-            <td rowspan="4">Transportation</td>
+            <td rowspan="3">Transportation</td>
             <td class="sub-category-first">Gas/Maintenance</td>
             <td><input type="number" id="gasMaintenance" value="210" onchange="updateTotals()"></td>
         </tr>
@@ -195,8 +181,8 @@
 
         <!-- Pet -->
         <tr class="category-row category-start">
-            <td rowspan="3">Pet</td>
-            <td class="sub-category-first"></td>
+            <td rowspan="2">Pet</td>
+            <td class="sub-category-first">General Pet Expenses</td>
             <td><input type="number" id="petGeneral" value="300" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
@@ -211,7 +197,7 @@
 
         <!-- Streaming Services -->
         <tr class="category-row category-start">
-            <td rowspan="6">Streaming Services</td>
+            <td rowspan="5">Streaming Services</td>
             <td class="sub-category-first">Hulu</td>
             <td><input type="number" id="hulu" value="175" onchange="updateTotals()"></td>
         </tr>
@@ -239,7 +225,7 @@
 
         <!-- Miscellaneous -->
         <tr class="category-row category-start">
-            <td rowspan="3">Miscellaneous</td>
+            <td rowspan="2">Miscellaneous</td>
             <td class="sub-category-first">Bank Fees</td>
             <td><input type="number" id="bankFees" value="10" onchange="updateTotals()"></td>
         </tr>
@@ -255,7 +241,7 @@
 
         <!-- Savings/Debt Payoff -->
         <tr class="category-row category-start">
-            <td rowspan="3">Savings/Debt Payoff</td>
+            <td rowspan="2">Savings/Debt Payoff</td>
             <td class="sub-category-first">Emergency Savings</td>
             <td><input type="number" id="emergencySavings" value="600" onchange="updateTotals()"></td>
         </tr>
