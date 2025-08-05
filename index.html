@@ -20,19 +20,29 @@
             background-color: #f2f2f2;
         }
         td:first-child, th:first-child {
-            text-align: left;
+            text-align: left; /* All text in first column aligned left */
+        }
+        .total-row td {
+            text-align: left; /* All text in total rows aligned left */
+        }
+        .total-row td:last-child {
+            text-align: right; /* Amount in total row aligned right */
+        }
+        .grand-total td {
+            text-align: left; /* Grand total text aligned left */
+        }
+        .grand-total td:last-child {
+            text-align: right; /* Grand total amount aligned right */
         }
         .total-row {
             font-weight: bold;
             background-color: #000000;
             color: #ffffff;
-            text-align: right; /* Totals aligned right */
         }
         .grand-total {
             font-weight: bold;
             background-color: #000000;
             color: #ffffff;
-            text-align: right; /* Grand total aligned right */
         }
         .category-row:nth-child(even) {
             background-color: #f9f9f9; /* Light gray for even rows */
@@ -42,6 +52,9 @@
         }
         .sub-category-first {
             text-align: left; /* First line under sub-category to the left */
+        }
+        .category-start {
+            text-align: left; /* Align category start to the left */
         }
         input {
             width: 100px;
@@ -53,10 +66,56 @@
             font-family: 'Verdana', sans-serif; /* Changed font for title */
             font-size: 36px; /* Made bigger */
         }
+        button {
+            margin: 10px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Mobile optimizations for iPhone 16 Pro/Safari */
+        @media screen and (max-width: 430px) { /* iPhone 16 Pro screen width */
+            body {
+                font-size: 14px; /* Reduce font size for mobile */
+            }
+            table {
+                font-size: 12px; /* Smaller font for table on mobile */
+                overflow-x: auto; /* Horizontal scroll for wide tables */
+                display: block; /* Allow scrolling */
+            }
+            th, td {
+                padding: 6px; /* Reduced padding for mobile */
+                min-width: 100px; /* Prevent text from being too cramped */
+            }
+            input {
+                width: 70px; /* Smaller inputs for mobile touch */
+                font-size: 12px; /* Match table font size */
+                -webkit-appearance: none; /* Remove default iOS styling */
+            }
+            h1 {
+                font-size: 24px; /* Even smaller title for mobile */
+                text-align: center; /* Centered title for better aesthetics */
+            }
+            button {
+                width: 100%; /* Full-width button for mobile */
+                font-size: 14px; /* Adjusted button font size */
+            }
+            .total-row td:last-child, .grand-total td:last-child {
+                padding-right: 10px; /* Extra padding for amount column */
+            }
+        }
     </style>
 </head>
 <body>
     <h1>Monthly Budget</h1>
+    <button onclick="resetValues()">Reset to Original Totals</button>
     <table id="budgetTable">
         <tr>
             <th>Category</th>
@@ -155,7 +214,7 @@
         </tr>
         <tr class="total-row">
             <td>Food/Groceries</td>
-            <td></td>
+            <td>Total</td>
             <td>$<span id="foodTotal">800</span></td>
         </tr>
 
@@ -175,7 +234,7 @@
         </tr>
         <tr class="total-row">
             <td>Transportation</td>
-            <td></td>
+            <td>Total</td>
             <td>$<span id="transportationTotal">950</span></td>
         </tr>
 
@@ -191,13 +250,13 @@
         </tr>
         <tr class="total-row">
             <td>Pet</td>
-            <td></td>
+            <td>Total</td>
             <td>$<span id="petTotal">300</span></td>
         </tr>
 
         <!-- Streaming Services -->
         <tr class="category-row category-start">
-            <td rowspan="5">Streaming Services</td>
+            <td rowspan="6">Streaming Services</td>
             <td class="sub-category-first">Hulu</td>
             <td><input type="number" id="hulu" value="175" onchange="updateTotals()"></td>
         </tr>
@@ -219,13 +278,13 @@
         </tr>
         <tr class="total-row">
             <td>Streaming Services</td>
-            <td></td>
+            <td>Total</td>
             <td>$<span id="streamingTotal">295</span></td>
         </tr>
 
         <!-- Miscellaneous -->
         <tr class="category-row category-start">
-            <td rowspan="2">Miscellaneous</td>
+            <td rowspan="3">Miscellaneous</td>
             <td class="sub-category-first">Bank Fees</td>
             <td><input type="number" id="bankFees" value="10" onchange="updateTotals()"></td>
         </tr>
@@ -235,13 +294,13 @@
         </tr>
         <tr class="total-row">
             <td>Miscellaneous</td>
-            <td></td>
+            <td>Total</td>
             <td>$<span id="miscTotal">410</span></td>
         </tr>
 
         <!-- Savings/Debt Payoff -->
         <tr class="category-row category-start">
-            <td rowspan="2">Savings/Debt Payoff</td>
+            <td rowspan="3">Savings/Debt Payoff</td>
             <td class="sub-category-first">Emergency Savings</td>
             <td><input type="number" id="emergencySavings" value="600" onchange="updateTotals()"></td>
         </tr>
@@ -251,7 +310,7 @@
         </tr>
         <tr class="total-row">
             <td>Savings/Debt Payoff</td>
-            <td></td>
+            <td>Total</td>
             <td>$<span id="savingsTotal">1400</span></td>
         </tr>
 
@@ -263,6 +322,40 @@
     </table>
 
     <script>
+        // Store initial values for reset
+        const initialValues = {
+            mortgage: 2300,
+            heloc: 1600,
+            windowsSiding: 900,
+            naturalGas: 126,
+            power: 143,
+            water: 90,
+            garbage: 33,
+            phoneBill: 600,
+            gesa: 149,
+            mgm: 25,
+            barclays: 25,
+            boa: 386,
+            capitalOne: 62,
+            appleCard: 25,
+            homeDepot: 29,
+            foodGroceries: 800,
+            gasMaintenance: 210,
+            carInsurance: 140,
+            carPayment: 600,
+            petGeneral: 300,
+            petInsurance: 0,
+            hulu: 175,
+            netflix: 30,
+            prime: 20,
+            apple: 40,
+            superGrok: 30,
+            bankFees: 10,
+            schoolTrip: 400,
+            emergencySavings: 600,
+            extraDebtPayoff: 800
+        };
+
         function updateTotals() {
             // Housing
             const mortgage = parseFloat(document.getElementById('mortgage').value) || 0;
@@ -326,17 +419,4 @@
 
             // Savings/Debt Payoff
             const emergencySavings = parseFloat(document.getElementById('emergencySavings').value) || 0;
-            const extraDebtPayoff = parseFloat(document.getElementById('extraDebtPayoff').value) || 0;
-            const savingsTotal = emergencySavings + extraDebtPayoff;
-            document.getElementById('savingsTotal').innerHTML = savingsTotal;
-
-            // Grand Total
-            const grandTotal = housingTotal + utilitiesTotal + debtTotal + foodTotal + transportationTotal + petTotal + streamingTotal + miscTotal + savingsTotal;
-            document.getElementById('grandTotal').innerHTML = grandTotal;
-        }
-
-        // Initial call to set totals on page load
-        window.onload = updateTotals;
-    </script>
-</body>
-</html>
+            const extraDebtPayoff = parseFloat(document.getElementById
