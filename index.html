@@ -22,27 +22,25 @@
         td:first-child, th:first-child {
             text-align: left; /* All text in first column aligned left */
         }
-        .total-row td {
-            text-align: left; /* All text in total rows aligned left */
+        .total-row {
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .total-row td:first-child {
+            text-align: left; /* Category name aligned left */
+        }
+        .total-row td:nth-child(2) {
+            text-align: left; /* Empty sub-category aligned left */
         }
         .total-row td:last-child {
-            text-align: right; /* Amount in total row aligned right */
+            text-align: right; /* Amount aligned right */
         }
         .grand-total td {
             text-align: left; /* Grand total text aligned left */
         }
         .grand-total td:last-child {
             text-align: right; /* Grand total amount aligned right */
-        }
-        .total-row {
-            font-weight: bold;
-            background-color: #000000;
-            color: #ffffff;
-        }
-        .grand-total {
-            font-weight: bold;
-            background-color: #000000;
-            color: #ffffff;
         }
         .category-row:nth-child(even) {
             background-color: #f9f9f9; /* Light gray for even rows */
@@ -220,15 +218,17 @@
 
         <!-- Transportation -->
         <tr class="category-row category-start">
-            <td rowspan="3">Transportation</td>
+            <td>Transportation</td>
             <td class="sub-category-first">Gas/Maintenance</td>
             <td><input type="number" id="gasMaintenance" value="210" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Car Insurance</td>
             <td><input type="number" id="carInsurance" value="140" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Car Payment</td>
             <td><input type="number" id="carPayment" value="600" onchange="updateTotals()"></td>
         </tr>
@@ -240,11 +240,12 @@
 
         <!-- Pet -->
         <tr class="category-row category-start">
-            <td rowspan="2">Pet</td>
+            <td>Pet</td>
             <td class="sub-category-first">General Pet Expenses</td>
             <td><input type="number" id="petGeneral" value="300" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Pet Insurance</td>
             <td><input type="number" id="petInsurance" value="0" onchange="updateTotals()"></td>
         </tr>
@@ -256,23 +257,27 @@
 
         <!-- Streaming Services -->
         <tr class="category-row category-start">
-            <td rowspan="6">Streaming Services</td>
+            <td>Streaming Services</td>
             <td class="sub-category-first">Hulu</td>
             <td><input type="number" id="hulu" value="175" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Netflix</td>
             <td><input type="number" id="netflix" value="30" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Prime</td>
             <td><input type="number" id="prime" value="20" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Apple</td>
             <td><input type="number" id="apple" value="40" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">SuperGrok</td>
             <td><input type="number" id="superGrok" value="30" onchange="updateTotals()"></td>
         </tr>
@@ -284,11 +289,12 @@
 
         <!-- Miscellaneous -->
         <tr class="category-row category-start">
-            <td rowspan="3">Miscellaneous</td>
+            <td>Miscellaneous</td>
             <td class="sub-category-first">Bank Fees</td>
             <td><input type="number" id="bankFees" value="10" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">School Trip</td>
             <td><input type="number" id="schoolTrip" value="400" onchange="updateTotals()"></td>
         </tr>
@@ -300,11 +306,12 @@
 
         <!-- Savings/Debt Payoff -->
         <tr class="category-row category-start">
-            <td rowspan="3">Savings/Debt Payoff</td>
+            <td>Savings/Debt Payoff</td>
             <td class="sub-category-first">Emergency Savings</td>
             <td><input type="number" id="emergencySavings" value="600" onchange="updateTotals()"></td>
         </tr>
         <tr class="category-row">
+            <td></td>
             <td class="sub-category-first">Extra Debt Payoff</td>
             <td><input type="number" id="extraDebtPayoff" value="800" onchange="updateTotals()"></td>
         </tr>
@@ -394,29 +401,4 @@
             const carInsurance = parseFloat(document.getElementById('carInsurance').value) || 0;
             const carPayment = parseFloat(document.getElementById('carPayment').value) || 0;
             const transportationTotal = gasMaintenance + carInsurance + carPayment;
-            document.getElementById('transportationTotal').innerHTML = transportationTotal;
-
-            // Pet
-            const petGeneral = parseFloat(document.getElementById('petGeneral').value) || 0;
-            const petInsurance = parseFloat(document.getElementById('petInsurance').value) || 0;
-            const petTotal = petGeneral + petInsurance;
-            document.getElementById('petTotal').innerHTML = petTotal;
-
-            // Streaming Services
-            const hulu = parseFloat(document.getElementById('hulu').value) || 0;
-            const netflix = parseFloat(document.getElementById('netflix').value) || 0;
-            const prime = parseFloat(document.getElementById('prime').value) || 0;
-            const apple = parseFloat(document.getElementById('apple').value) || 0;
-            const superGrok = parseFloat(document.getElementById('superGrok').value) || 0;
-            const streamingTotal = hulu + netflix + prime + apple + superGrok;
-            document.getElementById('streamingTotal').innerHTML = streamingTotal;
-
-            // Miscellaneous
-            const bankFees = parseFloat(document.getElementById('bankFees').value) || 0;
-            const schoolTrip = parseFloat(document.getElementById('schoolTrip').value) || 0;
-            const miscTotal = bankFees + schoolTrip;
-            document.getElementById('miscTotal').innerHTML = miscTotal;
-
-            // Savings/Debt Payoff
-            const emergencySavings = parseFloat(document.getElementById('emergencySavings').value) || 0;
-            const extraDebtPayoff = parseFloat(document.getElementById
+            document
