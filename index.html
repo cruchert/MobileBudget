@@ -401,4 +401,79 @@
             const carInsurance = parseFloat(document.getElementById('carInsurance').value) || 0;
             const carPayment = parseFloat(document.getElementById('carPayment').value) || 0;
             const transportationTotal = gasMaintenance + carInsurance + carPayment;
-            document
+            document.getElementById('transportationTotal').innerHTML = transportationTotal;
+
+            // Pet
+            const petGeneral = parseFloat(document.getElementById('petGeneral').value) || 0;
+            const petInsurance = parseFloat(document.getElementById('petInsurance').value) || 0;
+            const petTotal = petGeneral + petInsurance;
+            document.getElementById('petTotal').innerHTML = petTotal;
+
+            // Streaming Services
+            const hulu = parseFloat(document.getElementById('hulu').value) || 0;
+            const netflix = parseFloat(document.getElementById('netflix').value) || 0;
+            const prime = parseFloat(document.getElementById('prime').value) || 0;
+            const apple = parseFloat(document.getElementById('apple').value) || 0;
+            const superGrok = parseFloat(document.getElementById('superGrok').value) || 0;
+            const streamingTotal = hulu + netflix + prime + apple + superGrok;
+            document.getElementById('streamingTotal').innerHTML = streamingTotal;
+
+            // Miscellaneous
+            const bankFees = parseFloat(document.getElementById('bankFees').value) || 0;
+            const schoolTrip = parseFloat(document.getElementById('schoolTrip').value) || 0;
+            const miscTotal = bankFees + schoolTrip;
+            document.getElementById('miscTotal').innerHTML = miscTotal;
+
+            // Savings/Debt Payoff
+            const emergencySavings = parseFloat(document.getElementById('emergencySavings').value) || 0;
+            const extraDebtPayoff = parseFloat(document.getElementById('extraDebtPayoff').value) || 0;
+            const savingsTotal = emergencySavings + extraDebtPayoff;
+            document.getElementById('savingsTotal').innerHTML = savingsTotal;
+
+            // Grand Total
+            const grandTotal = housingTotal + utilitiesTotal + debtTotal + foodTotal + transportationTotal + petTotal + streamingTotal + miscTotal + savingsTotal;
+            document.getElementById('grandTotal').innerHTML = grandTotal;
+        }
+
+        function resetValues() {
+            // Reset all input fields to initial values
+            document.getElementById('mortgage').value = initialValues.mortgage;
+            document.getElementById('heloc').value = initialValues.heloc;
+            document.getElementById('windowsSiding').value = initialValues.windowsSiding;
+            document.getElementById('naturalGas').value = initialValues.naturalGas;
+            document.getElementById('power').value = initialValues.power;
+            document.getElementById('water').value = initialValues.water;
+            document.getElementById('garbage').value = initialValues.garbage;
+            document.getElementById('phoneBill').value = initialValues.phoneBill;
+            document.getElementById('gesa').value = initialValues.gesa;
+            document.getElementById('mgm').value = initialValues.mgm;
+            document.getElementById('barclays').value = initialValues.barclays;
+            document.getElementById('boa').value = initialValues.boa;
+            document.getElementById('capitalOne').value = initialValues.capitalOne;
+            document.getElementById('appleCard').value = initialValues.appleCard;
+            document.getElementById('homeDepot').value = initialValues.homeDepot;
+            document.getElementById('foodGroceries').value = initialValues.foodGroceries;
+            document.getElementById('gasMaintenance').value = initialValues.gasMaintenance;
+            document.getElementById('carInsurance').value = initialValues.carInsurance;
+            document.getElementById('carPayment').value = initialValues.carPayment;
+            document.getElementById('petGeneral').value = initialValues.petGeneral;
+            document.getElementById('petInsurance').value = initialValues.petInsurance;
+            document.getElementById('hulu').value = initialValues.hulu;
+            document.getElementById('netflix').value = initialValues.netflix;
+            document.getElementById('prime').value = initialValues.prime;
+            document.getElementById('apple').value = initialValues.apple;
+            document.getElementById('superGrok').value = initialValues.superGrok;
+            document.getElementById('bankFees').value = initialValues.bankFees;
+            document.getElementById('schoolTrip').value = initialValues.schoolTrip;
+            document.getElementById('emergencySavings').value = initialValues.emergencySavings;
+            document.getElementById('extraDebtPayoff').value = initialValues.extraDebtPayoff;
+
+            // Recalculate totals after reset
+            updateTotals();
+        }
+
+        // Initial call to set totals on page load
+        window.onload = updateTotals;
+    </script>
+</body>
+</html>
