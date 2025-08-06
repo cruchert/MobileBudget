@@ -37,10 +37,10 @@
             text-align: right; /* Amount aligned right */
         }
         .grand-total td {
-            text-align: left; /* Grand total text aligned left */
+            text-align: left; /* Total Expenses text aligned left */
         }
         .grand-total td:last-child {
-            text-align: right; /* Grand total amount aligned right */
+            text-align: right; /* Total Expenses amount aligned right */
         }
         .category-row:nth-child(even) {
             background-color: #f9f9f9; /* Light gray for even rows */
@@ -59,6 +59,7 @@
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            text-align: right; /* Align input values to right */
         }
         h1 {
             font-family: 'Verdana', sans-serif; /* Changed font for title */
@@ -76,6 +77,21 @@
         }
         button:hover {
             background-color: #45a049;
+        }
+        .remaining-balance {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+            display: inline-block;
+            position: relative;
+            left: 50%; /* Start at column 2 */
+            transform: translateX(-50%); /* Center within column 2-3 span */
+            width: 200px; /* Fixed width to span columns 2-3 */
+        }
+        .remaining-balance.deficit {
+            color: red; /* Red text for deficit */
         }
 
         /* Mobile optimizations for iPhone 16 Pro/Safari */
@@ -108,6 +124,10 @@
             .total-row td:last-child, .grand-total td:last-child {
                 padding-right: 10px; /* Extra padding for amount column */
             }
+            .remaining-balance {
+                width: 150px; /* Adjusted width for mobile */
+                font-size: 14px; /* Match body font size */
+            }
         }
     </style>
 </head>
@@ -120,256 +140,314 @@
             <th>Sub-Category</th>
             <th>Amount ($)</th>
         </tr>
+        <!-- Income -->
+        <tr class="category-row category-start">
+            <td>City of Walla Walla</td>
+            <td class="sub-category-first"></td>
+            <td><input type="number" id="cityWallaWalla" value="6500.00" onchange="updateTotals()" step="0.01"></td>
+        </tr>
+        <tr class="category-row">
+            <td>RGAP</td>
+            <td class="sub-category-first"></td>
+            <td><input type="number" id="rgap" value="1970.00" onchange="updateTotals()" step="0.01"></td>
+        </tr>
+        <tr class="category-row">
+            <td>Social Security</td>
+            <td class="sub-category-first"></td>
+            <td><input type="number" id="socialSecurity" value="1600.00" onchange="updateTotals()" step="0.01"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Income</td>
+            <td>Total</td>
+            <td>$<span id="incomeTotal">10070.00</span></td>
+        </tr>
+
         <!-- Housing -->
         <tr class="category-row category-start">
             <td rowspan="3">Housing</td>
             <td class="sub-category-first">Mortgage</td>
-            <td><input type="number" id="mortgage" value="2300" onchange="updateTotals()"></td>
+            <td><input type="number" id="mortgage" value="2300.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">HELOC</td>
-            <td><input type="number" id="heloc" value="1600" onchange="updateTotals()"></td>
+            <td><input type="number" id="heloc" value="1600.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Windows/Siding Project</td>
-            <td><input type="number" id="windowsSiding" value="900" onchange="updateTotals()"></td>
+            <td><input type="number" id="windowsSiding" value="900.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Housing</td>
             <td></td>
-            <td>$<span id="housingTotal">4800</span></td>
+            <td>$<span id="housingTotal">4800.00</span></td>
         </tr>
 
         <!-- Utilities -->
         <tr class="category-row category-start">
-            <td rowspan="5">Utilities</td>
+            <td rowspan="6">Utilities</td>
             <td class="sub-category-first">Natural Gas (Cascade Natural Gas)</td>
-            <td><input type="number" id="naturalGas" value="126" onchange="updateTotals()"></td>
+            <td><input type="number" id="naturalGas" value="126.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Power (Pacific Power)</td>
-            <td><input type="number" id="power" value="143" onchange="updateTotals()"></td>
+            <td><input type="number" id="power" value="143.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Water (City of Walla Walla)</td>
-            <td><input type="number" id="water" value="90" onchange="updateTotals()"></td>
+            <td><input type="number" id="water" value="90.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Garbage (Basin Disposal)</td>
-            <td><input type="number" id="garbage" value="33" onchange="updateTotals()"></td>
+            <td><input type="number" id="garbage" value="33.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Phone Bill</td>
-            <td><input type="number" id="phoneBill" value="600" onchange="updateTotals()"></td>
+            <td><input type="number" id="phoneBill" value="600.00" onchange="updateTotals()" step="0.01"></td>
+        </tr>
+        <tr class="category-row">
+            <td class="sub-category-first">Internet (Pocket iNet)</td>
+            <td><input type="number" id="internet" value="0.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Utilities</td>
             <td></td>
-            <td>$<span id="utilitiesTotal">992</span></td>
+            <td>$<span id="utilitiesTotal">992.00</span></td>
         </tr>
 
         <!-- Debt -->
         <tr class="category-row category-start">
             <td rowspan="7">Debt</td>
             <td class="sub-category-first">Gesa Credit Union</td>
-            <td><input type="number" id="gesa" value="149" onchange="updateTotals()"></td>
+            <td><input type="number" id="gesa" value="149.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">MGM Rewards</td>
-            <td><input type="number" id="mgm" value="25" onchange="updateTotals()"></td>
+            <td><input type="number" id="mgm" value="25.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Barclays</td>
-            <td><input type="number" id="barclays" value="25" onchange="updateTotals()"></td>
+            <td><input type="number" id="barclays" value="25.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Bank of America</td>
-            <td><input type="number" id="boa" value="386" onchange="updateTotals()"></td>
+            <td><input type="number" id="boa" value="386.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Capital One</td>
-            <td><input type="number" id="capitalOne" value="62" onchange="updateTotals()"></td>
+            <td><input type="number" id="capitalOne" value="62.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Apple Card</td>
-            <td><input type="number" id="appleCard" value="25" onchange="updateTotals()"></td>
+            <td><input type="number" id="appleCard" value="25.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td class="sub-category-first">Home Depot</td>
-            <td><input type="number" id="homeDepot" value="29" onchange="updateTotals()"></td>
+            <td><input type="number" id="homeDepot" value="29.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Debt</td>
             <td></td>
-            <td>$<span id="debtTotal">701</span></td>
+            <td>$<span id="debtTotal">701.00</span></td>
         </tr>
 
         <!-- Food/Groceries -->
         <tr class="category-row category-start">
             <td>Food/Groceries</td>
             <td class="sub-category-first"></td>
-            <td><input type="number" id="foodGroceries" value="800" onchange="updateTotals()"></td>
+            <td><input type="number" id="foodGroceries" value="800.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Food/Groceries</td>
-            <td>Total</td>
-            <td>$<span id="foodTotal">800</span></td>
+            <td></td>
+            <td>$<span id="foodTotal">800.00</span></td>
         </tr>
 
         <!-- Transportation -->
         <tr class="category-row category-start">
             <td>Transportation</td>
             <td class="sub-category-first">Gas/Maintenance</td>
-            <td><input type="number" id="gasMaintenance" value="210" onchange="updateTotals()"></td>
+            <td><input type="number" id="gasMaintenance" value="210.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Car Insurance</td>
-            <td><input type="number" id="carInsurance" value="140" onchange="updateTotals()"></td>
+            <td><input type="number" id="carInsurance" value="140.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Car Payment</td>
-            <td><input type="number" id="carPayment" value="600" onchange="updateTotals()"></td>
+            <td><input type="number" id="carPayment" value="600.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Transportation</td>
-            <td>Total</td>
-            <td>$<span id="transportationTotal">950</span></td>
+            <td></td>
+            <td>$<span id="transportationTotal">950.00</span></td>
         </tr>
 
         <!-- Pet -->
         <tr class="category-row category-start">
             <td>Pet</td>
             <td class="sub-category-first">General Pet Expenses</td>
-            <td><input type="number" id="petGeneral" value="300" onchange="updateTotals()"></td>
+            <td><input type="number" id="petGeneral" value="300.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Pet Insurance</td>
-            <td><input type="number" id="petInsurance" value="0" onchange="updateTotals()"></td>
+            <td><input type="number" id="petInsurance" value="0.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Pet</td>
-            <td>Total</td>
-            <td>$<span id="petTotal">300</span></td>
+            <td></td>
+            <td>$<span id="petTotal">300.00</span></td>
+        </tr>
+
+        <!-- Health Costs -->
+        <tr class="category-row category-start">
+            <td>Health Costs</td>
+            <td class="sub-category-first">General</td>
+            <td><input type="number" id="healthGeneral" value="0.00" onchange="updateTotals()" step="0.01"></td>
+        </tr>
+        <tr class="total-row">
+            <td>Health Costs</td>
+            <td></td>
+            <td>$<span id="healthTotal">0.00</span></td>
         </tr>
 
         <!-- Streaming Services -->
         <tr class="category-row category-start">
             <td>Streaming Services</td>
             <td class="sub-category-first">Hulu</td>
-            <td><input type="number" id="hulu" value="175" onchange="updateTotals()"></td>
+            <td><input type="number" id="hulu" value="175.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Netflix</td>
-            <td><input type="number" id="netflix" value="30" onchange="updateTotals()"></td>
+            <td><input type="number" id="netflix" value="30.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Prime</td>
-            <td><input type="number" id="prime" value="20" onchange="updateTotals()"></td>
+            <td><input type="number" id="prime" value="20.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Apple</td>
-            <td><input type="number" id="apple" value="40" onchange="updateTotals()"></td>
+            <td><input type="number" id="apple" value="40.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">SuperGrok</td>
-            <td><input type="number" id="superGrok" value="30" onchange="updateTotals()"></td>
+            <td><input type="number" id="superGrok" value="30.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Streaming Services</td>
-            <td>Total</td>
-            <td>$<span id="streamingTotal">295</span></td>
+            <td></td>
+            <td>$<span id="streamingTotal">295.00</span></td>
         </tr>
 
         <!-- Miscellaneous -->
         <tr class="category-row category-start">
             <td>Miscellaneous</td>
             <td class="sub-category-first">Bank Fees</td>
-            <td><input type="number" id="bankFees" value="10" onchange="updateTotals()"></td>
+            <td><input type="number" id="bankFees" value="10.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">School Trip</td>
-            <td><input type="number" id="schoolTrip" value="400" onchange="updateTotals()"></td>
+            <td><input type="number" id="schoolTrip" value="400.00" onchange="updateTotals()" step="0.01"></td>
+        </tr>
+        <tr class="category-row">
+            <td></td>
+            <td class="sub-category-first">Unplanned/Sporadic/Annual</td>
+            <td><input type="number" id="unplanned" value="0.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Miscellaneous</td>
-            <td>Total</td>
-            <td>$<span id="miscTotal">410</span></td>
+            <td></td>
+            <td>$<span id="miscTotal">410.00</span></td>
         </tr>
 
         <!-- Savings/Debt Payoff -->
         <tr class="category-row category-start">
             <td>Savings/Debt Payoff</td>
             <td class="sub-category-first">Emergency Savings</td>
-            <td><input type="number" id="emergencySavings" value="600" onchange="updateTotals()"></td>
+            <td><input type="number" id="emergencySavings" value="600.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="category-row">
             <td></td>
             <td class="sub-category-first">Extra Debt Payoff</td>
-            <td><input type="number" id="extraDebtPayoff" value="800" onchange="updateTotals()"></td>
+            <td><input type="number" id="extraDebtPayoff" value="800.00" onchange="updateTotals()" step="0.01"></td>
         </tr>
         <tr class="total-row">
             <td>Savings/Debt Payoff</td>
-            <td>Total</td>
-            <td>$<span id="savingsTotal">1400</span></td>
+            <td></td>
+            <td>$<span id="savingsTotal">1400.00</span></td>
         </tr>
 
-        <!-- Grand Total -->
+        <!-- Total Expenses -->
         <tr class="grand-total">
-            <td colspan="2">Grand Total</td>
-            <td>$<span id="grandTotal">10668</span></td>
+            <td>Total Expenses</td>
+            <td></td>
+            <td>$<span id="grandTotal">10648.00</span></td>
         </tr>
     </table>
+    <div class="remaining-balance" id="remainingBalance">Remaining Balance: $622.00</div>
 
     <script>
         // Store initial values for reset
         const initialValues = {
-            mortgage: 2300,
-            heloc: 1600,
-            windowsSiding: 900,
-            naturalGas: 126,
-            power: 143,
-            water: 90,
-            garbage: 33,
-            phoneBill: 600,
-            gesa: 149,
-            mgm: 25,
-            barclays: 25,
-            boa: 386,
-            capitalOne: 62,
-            appleCard: 25,
-            homeDepot: 29,
-            foodGroceries: 800,
-            gasMaintenance: 210,
-            carInsurance: 140,
-            carPayment: 600,
-            petGeneral: 300,
-            petInsurance: 0,
-            hulu: 175,
-            netflix: 30,
-            prime: 20,
-            apple: 40,
-            superGrok: 30,
-            bankFees: 10,
-            schoolTrip: 400,
-            emergencySavings: 600,
-            extraDebtPayoff: 800
+            cityWallaWalla: 6500.00,
+            rgap: 1970.00,
+            socialSecurity: 1600.00,
+            mortgage: 2300.00,
+            heloc: 1600.00,
+            windowsSiding: 900.00,
+            naturalGas: 126.00,
+            power: 143.00,
+            water: 90.00,
+            garbage: 33.00,
+            phoneBill: 600.00,
+            internet: 0.00,
+            gesa: 149.00,
+            mgm: 25.00,
+            barclays: 25.00,
+            boa: 386.00,
+            capitalOne: 62.00,
+            appleCard: 25.00,
+            homeDepot: 29.00,
+            foodGroceries: 800.00,
+            gasMaintenance: 210.00,
+            carInsurance: 140.00,
+            carPayment: 600.00,
+            petGeneral: 300.00,
+            petInsurance: 0.00,
+            healthGeneral: 0.00,
+            hulu: 175.00,
+            netflix: 30.00,
+            prime: 20.00,
+            apple: 40.00,
+            superGrok: 30.00,
+            bankFees: 10.00,
+            schoolTrip: 400.00,
+            unplanned: 0.00,
+            emergencySavings: 600.00,
+            extraDebtPayoff: 800.00
         };
 
         function updateTotals() {
+            // Income
+            const cityWallaWalla = parseFloat(document.getElementById('cityWallaWalla').value) || 0;
+            const rgap = parseFloat(document.getElementById('rgap').value) || 0;
+            const socialSecurity = parseFloat(document.getElementById('socialSecurity').value) || 0;
+            const incomeTotal = cityWallaWalla + rgap + socialSecurity;
+            document.getElementById('incomeTotal').innerHTML = incomeTotal.toFixed(2);
+
             // Housing
             const mortgage = parseFloat(document.getElementById('mortgage').value) || 0;
             const heloc = parseFloat(document.getElementById('heloc').value) || 0;
             const windowsSiding = parseFloat(document.getElementById('windowsSiding').value) || 0;
             const housingTotal = mortgage + heloc + windowsSiding;
-            document.getElementById('housingTotal').innerHTML = housingTotal;
+            document.getElementById('housingTotal').innerHTML = housingTotal.toFixed(2);
 
             // Utilities
             const naturalGas = parseFloat(document.getElementById('naturalGas').value) || 0;
@@ -377,8 +455,9 @@
             const water = parseFloat(document.getElementById('water').value) || 0;
             const garbage = parseFloat(document.getElementById('garbage').value) || 0;
             const phoneBill = parseFloat(document.getElementById('phoneBill').value) || 0;
-            const utilitiesTotal = naturalGas + power + water + garbage + phoneBill;
-            document.getElementById('utilitiesTotal').innerHTML = utilitiesTotal;
+            const internet = parseFloat(document.getElementById('internet').value) || 0;
+            const utilitiesTotal = naturalGas + power + water + garbage + phoneBill + internet;
+            document.getElementById('utilitiesTotal').innerHTML = utilitiesTotal.toFixed(2);
 
             // Debt
             const gesa = parseFloat(document.getElementById('gesa').value) || 0;
@@ -389,25 +468,30 @@
             const appleCard = parseFloat(document.getElementById('appleCard').value) || 0;
             const homeDepot = parseFloat(document.getElementById('homeDepot').value) || 0;
             const debtTotal = gesa + mgm + barclays + boa + capitalOne + appleCard + homeDepot;
-            document.getElementById('debtTotal').innerHTML = debtTotal;
+            document.getElementById('debtTotal').innerHTML = debtTotal.toFixed(2);
 
             // Food/Groceries
             const foodGroceries = parseFloat(document.getElementById('foodGroceries').value) || 0;
             const foodTotal = foodGroceries;
-            document.getElementById('foodTotal').innerHTML = foodTotal;
+            document.getElementById('foodTotal').innerHTML = foodTotal.toFixed(2);
 
             // Transportation
             const gasMaintenance = parseFloat(document.getElementById('gasMaintenance').value) || 0;
             const carInsurance = parseFloat(document.getElementById('carInsurance').value) || 0;
             const carPayment = parseFloat(document.getElementById('carPayment').value) || 0;
             const transportationTotal = gasMaintenance + carInsurance + carPayment;
-            document.getElementById('transportationTotal').innerHTML = transportationTotal;
+            document.getElementById('transportationTotal').innerHTML = transportationTotal.toFixed(2);
 
             // Pet
             const petGeneral = parseFloat(document.getElementById('petGeneral').value) || 0;
             const petInsurance = parseFloat(document.getElementById('petInsurance').value) || 0;
             const petTotal = petGeneral + petInsurance;
-            document.getElementById('petTotal').innerHTML = petTotal;
+            document.getElementById('petTotal').innerHTML = petTotal.toFixed(2);
+
+            // Health Costs
+            const healthGeneral = parseFloat(document.getElementById('healthGeneral').value) || 0;
+            const healthTotal = healthGeneral;
+            document.getElementById('healthTotal').innerHTML = healthTotal.toFixed(2);
 
             // Streaming Services
             const hulu = parseFloat(document.getElementById('hulu').value) || 0;
@@ -416,57 +500,74 @@
             const apple = parseFloat(document.getElementById('apple').value) || 0;
             const superGrok = parseFloat(document.getElementById('superGrok').value) || 0;
             const streamingTotal = hulu + netflix + prime + apple + superGrok;
-            document.getElementById('streamingTotal').innerHTML = streamingTotal;
+            document.getElementById('streamingTotal').innerHTML = streamingTotal.toFixed(2);
 
             // Miscellaneous
             const bankFees = parseFloat(document.getElementById('bankFees').value) || 0;
             const schoolTrip = parseFloat(document.getElementById('schoolTrip').value) || 0;
-            const miscTotal = bankFees + schoolTrip;
-            document.getElementById('miscTotal').innerHTML = miscTotal;
+            const unplanned = parseFloat(document.getElementById('unplanned').value) || 0;
+            const miscTotal = bankFees + schoolTrip + unplanned;
+            document.getElementById('miscTotal').innerHTML = miscTotal.toFixed(2);
 
             // Savings/Debt Payoff
             const emergencySavings = parseFloat(document.getElementById('emergencySavings').value) || 0;
             const extraDebtPayoff = parseFloat(document.getElementById('extraDebtPayoff').value) || 0;
             const savingsTotal = emergencySavings + extraDebtPayoff;
-            document.getElementById('savingsTotal').innerHTML = savingsTotal;
+            document.getElementById('savingsTotal').innerHTML = savingsTotal.toFixed(2);
 
-            // Grand Total
-            const grandTotal = housingTotal + utilitiesTotal + debtTotal + foodTotal + transportationTotal + petTotal + streamingTotal + miscTotal + savingsTotal;
-            document.getElementById('grandTotal').innerHTML = grandTotal;
+            // Total Expenses
+            const grandTotal = housingTotal + utilitiesTotal + debtTotal + foodTotal + transportationTotal + petTotal + healthTotal + streamingTotal + miscTotal + savingsTotal;
+            document.getElementById('grandTotal').innerHTML = grandTotal.toFixed(2);
+
+            // Remaining Balance
+            const remainingBalance = incomeTotal - grandTotal;
+            const balanceElement = document.getElementById('remainingBalance');
+            balanceElement.textContent = `Remaining Balance: $${remainingBalance.toFixed(2)}`;
+            if (remainingBalance < 0) {
+                balanceElement.classList.add('deficit');
+            } else {
+                balanceElement.classList.remove('deficit');
+            }
         }
 
         function resetValues() {
             // Reset all input fields to initial values
-            document.getElementById('mortgage').value = initialValues.mortgage;
-            document.getElementById('heloc').value = initialValues.heloc;
-            document.getElementById('windowsSiding').value = initialValues.windowsSiding;
-            document.getElementById('naturalGas').value = initialValues.naturalGas;
-            document.getElementById('power').value = initialValues.power;
-            document.getElementById('water').value = initialValues.water;
-            document.getElementById('garbage').value = initialValues.garbage;
-            document.getElementById('phoneBill').value = initialValues.phoneBill;
-            document.getElementById('gesa').value = initialValues.gesa;
-            document.getElementById('mgm').value = initialValues.mgm;
-            document.getElementById('barclays').value = initialValues.barclays;
-            document.getElementById('boa').value = initialValues.boa;
-            document.getElementById('capitalOne').value = initialValues.capitalOne;
-            document.getElementById('appleCard').value = initialValues.appleCard;
-            document.getElementById('homeDepot').value = initialValues.homeDepot;
-            document.getElementById('foodGroceries').value = initialValues.foodGroceries;
-            document.getElementById('gasMaintenance').value = initialValues.gasMaintenance;
-            document.getElementById('carInsurance').value = initialValues.carInsurance;
-            document.getElementById('carPayment').value = initialValues.carPayment;
-            document.getElementById('petGeneral').value = initialValues.petGeneral;
-            document.getElementById('petInsurance').value = initialValues.petInsurance;
-            document.getElementById('hulu').value = initialValues.hulu;
-            document.getElementById('netflix').value = initialValues.netflix;
-            document.getElementById('prime').value = initialValues.prime;
-            document.getElementById('apple').value = initialValues.apple;
-            document.getElementById('superGrok').value = initialValues.superGrok;
-            document.getElementById('bankFees').value = initialValues.bankFees;
-            document.getElementById('schoolTrip').value = initialValues.schoolTrip;
-            document.getElementById('emergencySavings').value = initialValues.emergencySavings;
-            document.getElementById('extraDebtPayoff').value = initialValues.extraDebtPayoff;
+            document.getElementById('cityWallaWalla').value = initialValues.cityWallaWalla.toFixed(2);
+            document.getElementById('rgap').value = initialValues.rgap.toFixed(2);
+            document.getElementById('socialSecurity').value = initialValues.socialSecurity.toFixed(2);
+            document.getElementById('mortgage').value = initialValues.mortgage.toFixed(2);
+            document.getElementById('heloc').value = initialValues.heloc.toFixed(2);
+            document.getElementById('windowsSiding').value = initialValues.windowsSiding.toFixed(2);
+            document.getElementById('naturalGas').value = initialValues.naturalGas.toFixed(2);
+            document.getElementById('power').value = initialValues.power.toFixed(2);
+            document.getElementById('water').value = initialValues.water.toFixed(2);
+            document.getElementById('garbage').value = initialValues.garbage.toFixed(2);
+            document.getElementById('phoneBill').value = initialValues.phoneBill.toFixed(2);
+            document.getElementById('internet').value = initialValues.internet.toFixed(2);
+            document.getElementById('gesa').value = initialValues.gesa.toFixed(2);
+            document.getElementById('mgm').value = initialValues.mgm.toFixed(2);
+            document.getElementById('barclays').value = initialValues.barclays.toFixed(2);
+            document.getElementById('boa').value = initialValues.boa.toFixed(2);
+            document.getElementById('capitalOne').value = initialValues.capitalOne.toFixed(2);
+            document.getElementById('appleCard').value = initialValues.appleCard.toFixed(2);
+            document.getElementById('homeDepot').value = initialValues.homeDepot.toFixed(2);
+            document.getElementById('foodGroceries').value = initialValues.foodGroceries.toFixed(2);
+            document.getElementById('gasMaintenance').value = initialValues.gasMaintenance.toFixed(2);
+            document.getElementById('carInsurance').value = initialValues.carInsurance.toFixed(2);
+            document.getElementById('carPayment').value = initialValues.carPayment.toFixed(2);
+            document.getElementById('petGeneral').value = initialValues.petGeneral.toFixed(2);
+            document.getElementById('petInsurance').value = initialValues.petInsurance.toFixed(2);
+            document.getElementById('healthGeneral').value = initialValues.healthGeneral.toFixed(2);
+            document.getElementById('hulu').value = initialValues.hulu.toFixed(2);
+            document.getElementById('netflix').value = initialValues.netflix.toFixed(2);
+            document.getElementById('prime').value = initialValues.prime.toFixed(2);
+            document.getElementById('apple').value = initialValues.apple.toFixed(2);
+            document.getElementById('superGrok').value = initialValues.superGrok.toFixed(2);
+            document.getElementById('bankFees').value = initialValues.bankFees.toFixed(2);
+            document.getElementById('schoolTrip').value = initialValues.schoolTrip.toFixed(2);
+            document.getElementById('unplanned').value = initialValues.unplanned.toFixed(2);
+            document.getElementById('emergencySavings').value = initialValues.emergencySavings.toFixed(2);
+            document.getElementById('extraDebtPayoff').value = initialValues.extraDebtPayoff.toFixed(2);
 
             // Recalculate totals after reset
             updateTotals();
